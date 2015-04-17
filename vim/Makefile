@@ -10,9 +10,9 @@ ac_fsproj = $(base_d)/FSharp.AutoComplete/FSharp.AutoComplete.fsproj
 ac_out    = $(base_d)/FSharp.AutoComplete/bin/Debug/
 
 # Installation paths.
-dest_root = $(HOME)/.vim/bundle/fsharpbinding-vim/
+dest_root = $(HOME)/.vim/bundle/fsharpbinding-vim
 dest_bin  = $(dest_root)/ftplugin/bin/
-
+current_dir = $(shell pwd)
 # ----------------------------------------------------------------------------
 
 # Building
@@ -22,6 +22,10 @@ $(ac_exe) : $(bin_d) ~/.config/.mono/certs
 
 ~/.config/.mono/certs:
 	mozroots --import --sync --quiet
+
+link : $(ac_exe) 
+	if [ -d $(dest_root) ]; then rm -r $(dest_root); fi
+	ln -s $(current_dir) $(dest_root)
 
 install : $(ac_exe) $(dest_root) $(dest_bin)
 	rm -r $(dest_root)
